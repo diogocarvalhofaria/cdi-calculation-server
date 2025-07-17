@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constantes';
 import { Request } from 'express';
+import { GqlExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
 export class AuthGuard implements CanActivate{
@@ -11,7 +12,12 @@ export class AuthGuard implements CanActivate{
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+    let request;
+    if (context.getType() === 'http') {
+      request = context.switchToHttp().getRequest();
+    } else {
+      request = GqlExecutionContext.create(context).getContext().req;
+    }
 
     const token = this.extractTokenFromHeader(request);
 

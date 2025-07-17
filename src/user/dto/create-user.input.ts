@@ -1,6 +1,7 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Int, Field, ObjectType, HideField } from '@nestjs/graphql';
 
 @InputType()
+@ObjectType()
 export class CreateUserInput {
 
   @Field(() => String, { description: 'The name of the user' })
@@ -9,7 +10,7 @@ export class CreateUserInput {
   @Field(() => String, { description: 'The email of the user' })
   email: string;
 
-  @Field(() => String, { description: 'The password of the user' })
+  @Field()
   password: string;
 
 }

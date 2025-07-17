@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DefaultMessage } from '../cummons/default-message';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -22,8 +23,12 @@ export class UserService {
     if (newUser) {
       throw new BadRequestException('Usuario já existe');
     }
+    const hashedPassword = await bcrypt.hash(createUserInput.password, 10);
 
-    const createdUser = this.userRepository.create(createUserInput);
+    const createdUser = this.userRepository.create({
+      ...createUserInput,
+      password: hashedPassword,
+    });
     await this.userRepository.save(createdUser);
 
     return new DefaultMessage(200, 'Usuário criado com sucesso');
@@ -34,9 +39,9 @@ export class UserService {
   // }
   //
 
-  async findOne(id: string) {
+  async findOne(userId: string){
     const user = this.userRepository.findOne({
-      where: { id: id },
+      where: { id: userId },
     });
 
     if (!user) {

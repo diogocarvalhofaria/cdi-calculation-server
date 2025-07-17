@@ -1,14 +1,15 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { DefaultMessage } from '../cummons/default-message';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Mutation(() => User)
+  @Mutation(() => DefaultMessage)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.userService.createUser(createUserInput);
   }
@@ -18,17 +19,17 @@ export class UserResolver {
   //   return this.userService.findAll();
   // }
   //
-  // @Query(() => User, { name: 'user' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.userService.findOne(id);
-  // }
+  @Query(() => User)
+  findOne(@Args('userId') userId: string) {
+    return this.userService.findOne(userId);
+  }
 
-  @Mutation(() => User)
+  @Mutation(() => DefaultMessage)
   updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.userService.updateUser(updateUserInput.id, updateUserInput);
   }
 
-  @Mutation(() => User)
+  @Mutation(() => DefaultMessage)
   removeUser(@Args('id') id: string) {
     return this.userService.removeUser(id);
   }
