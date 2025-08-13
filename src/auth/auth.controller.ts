@@ -13,7 +13,6 @@ export class AuthController {
   @Post('login')
   singIn(@Body() signInDto: { email: string; password: string }) {
     return this.authService.singIn(signInDto.email, signInDto.password);
-
   }
 
   @UseGuards(AuthGuard)
