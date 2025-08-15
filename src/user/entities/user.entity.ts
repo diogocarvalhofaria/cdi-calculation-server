@@ -31,4 +31,7 @@ export class User {
   @CreateDateColumn()
   createdAt?: Date;
 
+  @Column({ type: 'datetime', nullable: true, default: null })
+  verifiedEmail?: Date;
+
 }

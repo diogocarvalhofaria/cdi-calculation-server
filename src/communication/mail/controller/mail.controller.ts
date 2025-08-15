@@ -10,9 +10,8 @@ export class MailController {
     await this.mailService.sendMail(
       'di.c.faria@gmail.com',
       'Teste de Módulo de E-mail',
-      'mail', // <--- CORRIJA DE 'exemplo' PARA 'mail'
+      'mail', //
       {
-        // Lembre-se de passar todos os dados que o seu template 'mail.hbs' precisa
         title: 'Teste via Controller',
         name: 'Usuário Incrível',
         message: 'O caminho do template foi configurado corretamente!',
