@@ -30,4 +30,19 @@ export class MailService {
       }
     });
   }
+
+  async sendPasswordResetEmail(email: string, name: string, token: string): Promise<void> {
+    await this.mailerService.sendMail({
+      to: email,
+      from: this.config.get<string>('MAIL_FROM'),
+      subject: 'Redefinição de Senha',
+      template: 'passwordReset',
+      context: {
+        name: name,
+        url: `${this.config.get<string>('FRONT_URL')}/auth/reset-password?token=${token}`,
+      }
+    });
+  }
+
+
 }

@@ -27,12 +27,14 @@ export class UserService {
       if (newUser) {
         throw new BadRequestException('Usuario já existe');
       }
+
       const hashedPassword = await bcrypt.hash(createUserInput.password, 10);
 
       const createdUser = this.userRepository.create({
         ...createUserInput,
         password: hashedPassword,
       });
+
       await this.userRepository.save(createdUser);
 
       const payload = { userId: createdUser.id };

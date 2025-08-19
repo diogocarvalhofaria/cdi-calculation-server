@@ -52,4 +52,21 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.user;
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('forgot-password')
+  async forgotPassword(
+    @Body('email') email: string,
+    @Res() res: Response
+  ) {
+    if (!email) {
+      throw new BadRequestException('E-mail não fornecido.');
+    }
+    try {
+      await this.authService.forgotPassword(email);
+      return res.status(HttpStatus.OK).json({ message: 'E-mail de redefinição enviado.' });
+    } catch (error) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
+    }
+  }
 }
