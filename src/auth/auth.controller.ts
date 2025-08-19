@@ -69,4 +69,22 @@ export class AuthController {
       return res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
     }
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('reset-password')
+  async resetPassword(
+    @Body('token') token: string,
+    @Body('newPassword') newPassword: string,
+    @Res() res: Response
+  ) {
+    if (!token || !newPassword) {
+      throw new BadRequestException('Token ou nova senha não fornecidos.');
+    }
+    try {
+      await this.authService.resetPassword(token, newPassword);
+      return res.status(HttpStatus.OK).json({ message: 'Senha redefinida com sucesso.' });
+    } catch (error) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
+    }
+  }
 }

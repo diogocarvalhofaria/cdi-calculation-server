@@ -36,7 +36,7 @@ export class MailService {
       to: email,
       from: this.config.get<string>('MAIL_FROM'),
       subject: 'Redefinição de Senha',
-      template: 'passwordReset',
+      template: 'forgotPassword',
       context: {
         name: name,
         url: `${this.config.get<string>('FRONT_URL')}/auth/reset-password?token=${token}`,

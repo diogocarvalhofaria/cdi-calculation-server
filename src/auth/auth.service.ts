@@ -91,7 +91,6 @@ export class AuthService {
     return new DefaultMessage(200, 'Se você é o dono dessa conta, verifique seu e-mail para redefinir sua senha.')
   }
 
-  // src/auth/auth.service.ts
   async resetPassword(token: string, newPassword: string): Promise<DefaultMessage> {
     const secret = process.env.JWT_SECRET;
     if (!secret) {
